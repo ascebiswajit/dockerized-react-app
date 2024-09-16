@@ -1,6 +1,20 @@
+version: "3"
 services:
   mywebapp:
     build: ./
     ports:
-      - 8080:3000   
+      - "8080:3000"  # Expose port 3000 in container to 8080 on the host
     container_name: 'mywebapp'
+    volumes:
+      - .:/myapp
+      - /myapp/node_modules
+    stdin_open: true
+    tty: true
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    ports:
+      - "9999:8080"  # Expose Dozzle's web interface on port 9999
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
